@@ -22,10 +22,29 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'XLO',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          primarySwatch: Colors.purple,
-          primaryColor: Colors.purple,
-          secondaryHeaderColor: Colors.orange),
+        primarySwatch: Colors.purple,
+        primaryColor: Colors.purple,
+        secondaryHeaderColor: Colors.orange,
+        textTheme: TextTheme(
+          bodyText1: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 18 * MediaQuery.textScaleFactorOf(context),
+          ),
+        ),
+        textSelectionTheme: const TextSelectionThemeData(
+          cursorColor: Colors.orange,
+        ),
+        appBarTheme: AppBarTheme(
+          centerTitle: true,
+          elevation: 0,
+          titleTextStyle: Theme.of(context)
+              .textTheme
+              .headline4
+              ?.copyWith(color: Colors.white),
+        ),
+      ),
       home: BaseScreen(),
     );
   }
