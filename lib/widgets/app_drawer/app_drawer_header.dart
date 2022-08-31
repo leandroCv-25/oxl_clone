@@ -11,8 +11,11 @@ class AppDrawerHeader extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.only(left: 25.0, top: 20, bottom: 20),
           child: GestureDetector(
-            onTap: () => Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => LoginScreen())),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => LoginScreen()));
+            },
             child: Row(
               children: [
                 const Icon(

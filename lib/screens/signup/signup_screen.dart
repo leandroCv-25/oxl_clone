@@ -1,26 +1,26 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:olx_clone/screens/signup/signup_screen.dart';
+import 'package:olx_clone/observables/sign_up/sign_up_store.dart';
+import 'package:olx_clone/screens/login/login_screen.dart';
+import 'package:olx_clone/screens/signup/widgets/pass_widget.dart';
+import 'package:olx_clone/widgets/error_box.dart';
 import 'package:olx_clone/widgets/or_divider.dart';
 import 'package:olx_clone/widgets/App_icon_button.dart';
 import 'package:olx_clone/widgets/app_text_field.dart';
 import 'package:olx_clone/widgets/responsive_widget.dart';
 
-import '../../observables/log_in/log_in_store.dart';
-import '../../widgets/error_box.dart';
+class SignUpScreen extends StatelessWidget {
+  SignUpScreen({Key? key}) : super(key: key);
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({Key? key}) : super(key: key);
-
-  final logInStore = LogInStore();
+  final signUpStore = SignUpStore();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: !kIsWeb
           ? AppBar(
-              title: const Text("Entrar"),
+              title: const Text("Cadastrar"),
             )
           : null,
       body: SingleChildScrollView(
@@ -45,81 +45,90 @@ class LoginScreen extends StatelessWidget {
                         const OrDivider(),
                         Observer(builder: (context) {
                           return AppTextField(
-                            title: "E-mail",
-                            textInputType: TextInputType.emailAddress,
-                            onChanged: logInStore.setEmail,
-                            enabled: logInStore.loading,
-                            errorText: logInStore.emailError,
-                            prefix: const Icon(Icons.email),
+                            title: "Apelido",
+                            subtitle:
+                                const Text("Como aparecerá em seus anúncios"),
+                            hint: "Exemplo: João S.",
+                            textInputType: TextInputType.name,
+                            onChanged: signUpStore.setName,
+                            enabled: !signUpStore.loading,
+                            errorText: signUpStore.nameError,
                           );
                         }),
                         Observer(builder: (context) {
                           return AppTextField(
-                            title: "Senha",
-                            subtitle: GestureDetector(
-                              onTap: () {},
-                              child: Text(
-                                "Esqueceu sua senha",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1
-                                    ?.copyWith(
-                                        color: Colors.blue,
-                                        decoration: TextDecoration.underline),
-                              ),
-                            ),
-                            textInputType: TextInputType.visiblePassword,
-                            onChanged: logInStore.setPass,
-                            enabled: logInStore.loading,
-                            obscure: logInStore.obscure,
-                            errorText: logInStore.passError,
-                            prefix: const Icon(Icons.password),
-                            suffix: AppIconButton(
-                              radius: 32,
-                              iconData: logInStore.obscure
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
-                              onTap: logInStore.setObscure,
-                            ),
+                            title: "E-mail",
+                            textInputType: TextInputType.emailAddress,
+                            onChanged: signUpStore.setEmail,
+                            enabled: !signUpStore.loading,
+                            errorText: signUpStore.emailError,
+                            prefix: const Icon(Icons.email),
                           );
                         }),
                         Observer(builder: (context) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 8, horizontal: 32),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: SizedBox(
-                                height: 40,
-                                child: OutlinedButton(
+                          return Column(
+                            children: [
+                              AppTextField(
+                                onChanged: signUpStore.setPass,
+                                title: "Senha",
+                                errorText: signUpStore.passError,
+                                subtitle: const Text(
+                                    "Use letras, números e caracteres especiais"),
+                                textInputType: TextInputType.visiblePassword,
+                                enabled: !signUpStore.loading,
+                                obscure: signUpStore.obscure,
+                                prefix: const Icon(Icons.password),
+                                suffix: AppIconButton(
+                                  radius: 32,
+                                  iconData: signUpStore.obscure
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                  onTap: signUpStore.setObscure,
+                                ),
+                              ),
+                              PassWidget(
+                                grade: signUpStore.passStrenghGrade,
+                              )
+                            ],
+                          );
+                        }),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 32),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: SizedBox(
+                              height: 40,
+                              child: Observer(builder: (context) {
+                                return OutlinedButton(
                                   style: OutlinedButton.styleFrom(
                                     backgroundColor: Theme.of(context)
                                         .secondaryHeaderColor
                                         .withAlpha(
-                                            logInStore.formValid ? 255 : 120),
+                                            signUpStore.formValid ? 255 : 120),
                                   ),
-                                  onPressed: logInStore.formValid
-                                      ? logInStore.logIn
+                                  onPressed: signUpStore.formValid
+                                      ? signUpStore.signUp
                                       : null,
-                                  child: logInStore.loading
+                                  child: signUpStore.loading
                                       ? const CircularProgressIndicator(
                                           color: Colors.white,
                                         )
                                       : Text(
-                                          "Entrar",
+                                          "Cadastra-se",
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyText1
                                               ?.copyWith(color: Colors.white),
                                         ),
-                                ),
-                              ),
+                                );
+                              }),
                             ),
-                          );
-                        }),
+                          ),
+                        ),
                         Observer(builder: (_) {
                           return ErrorBox(
-                            message: logInStore.error,
+                            message: signUpStore.error,
                           );
                         }),
                         const Divider(),
@@ -130,19 +139,19 @@ class LoginScreen extends StatelessWidget {
                             alignment: WrapAlignment.center,
                             children: [
                               Text(
-                                "Não tem uma conta? ",
+                                "Já tem uma conta? ",
                                 style: Theme.of(context).textTheme.bodyText1,
                               ),
                               GestureDetector(
                                 onTap: () {
                                   Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
-                                      builder: (context) => SignUpScreen(),
+                                      builder: (context) => LoginScreen(),
                                     ),
                                   );
                                 },
                                 child: Text(
-                                  "Cadastre-se",
+                                  "Entrar",
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText1
