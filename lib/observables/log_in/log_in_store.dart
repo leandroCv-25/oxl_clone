@@ -1,8 +1,10 @@
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../helpers/email_validation.dart';
 import '../../models/user.dart';
 import '../../repositories/user_repository.dart';
+import '../user_manager/user_manager.dart';
 part 'log_in_store.g.dart';
 
 class LogInStore = _LogInStoreBase with _$LogInStore;
@@ -28,10 +30,12 @@ abstract class _LogInStoreBase with Store {
 
   @observable
   String? _pass;
+  @observable
   bool obscure = true;
 
   @action
   void setPass(String value) => _pass = value;
+  @action
   void setObscure() => obscure = !obscure;
 
   @computed
@@ -39,7 +43,7 @@ abstract class _LogInStoreBase with Store {
 
   @computed
   String? get passError {
-    if (_pass != null && _pass!.length >= 8) {
+    if (_pass != null && _pass!.length < 8) {
       return "Senhas com pelo menos 8 caracteres";
     }
     return null;
@@ -65,6 +69,9 @@ abstract class _LogInStoreBase with Store {
     try {
       User user =
           await userREpository.logInWithEmail(email: email!, password: _pass!);
+
+      GetIt.I<UserManager>().setUser(user);
+      
     } catch (e) {
       setError(e as String);
     }

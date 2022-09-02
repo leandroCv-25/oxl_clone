@@ -5,7 +5,7 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'table_keys.dart';
 
 class UserRepository {
-  Future<void> signUp(User user) async {
+  Future<User> signUp(User user) async {
     final parseUser = ParseUser(user.email, user.password, user.email);
 
     parseUser.set<String>(keyUserName, user.name);
@@ -14,6 +14,7 @@ class UserRepository {
     final response = await parseUser.signUp();
 
     if (response.success) {
+      return mapParseToUser(parseUser);
     } else {
       return Future.error(ParseErrors.getDescription(response.error!.code));
     }
@@ -27,9 +28,23 @@ class UserRepository {
 
     if (response.success) {
       return mapParseToUser(parseUser);
-    } else{
+    } else {
       return Future.error(ParseErrors.getDescription(response.error!.code));
     }
+  }
+
+  Future<User?> currentUser() async {
+    final ParseUser? parseUser = await ParseUser.currentUser();
+    if (parseUser != null) {
+      final response =
+          await ParseUser.getCurrentUserFromServer(parseUser.sessionToken!);
+      if (response != null && response.success) {
+        return mapParseToUser(parseUser);
+      } else {
+        await parseUser.logout();
+      }
+    }
+    return null;
   }
 
   User mapParseToUser(ParseUser parseUser) {

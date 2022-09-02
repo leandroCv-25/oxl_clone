@@ -6,6 +6,7 @@ class AppTextField extends StatelessWidget {
     this.hint,
     this.prefix,
     this.suffix,
+    this.maxLines = 1,
     this.obscure = false,
     required this.textInputType,
     required this.onChanged,
@@ -27,6 +28,7 @@ class AppTextField extends StatelessWidget {
   final String? title;
   final Widget? subtitle;
   final String? errorText;
+  final int maxLines;
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +64,7 @@ class AppTextField extends StatelessWidget {
                     ? const EdgeInsets.symmetric(horizontal: 32)
                     : const EdgeInsets.only(left: 16),
                 child: TextField(
+                  maxLines: maxLines,
                   controller: controller,
                   obscureText: obscure,
                   keyboardType: textInputType,

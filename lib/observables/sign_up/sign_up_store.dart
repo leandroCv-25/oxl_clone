@@ -1,8 +1,11 @@
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:olx_clone/helpers/email_validation.dart';
 import 'package:olx_clone/helpers/pass_validation.dart';
 import 'package:olx_clone/models/user.dart';
 import 'package:olx_clone/repositories/user_repository.dart';
+
+import '../user_manager/user_manager.dart';
 part 'sign_up_store.g.dart';
 
 // ignore: library_private_types_in_public_api
@@ -96,9 +99,10 @@ abstract class _SignUpStoreBase with Store {
 
     final User user = User(email: email!, name: name!, password: _pass);
 
-    final userREpository = UserRepository();
+    final userRepository = UserRepository();
     try {
-      await userREpository.signUp(user);
+      final userResponse = await userRepository.signUp(user);
+      GetIt.I<UserManager>().setUser(userResponse);
     } catch (e) {
       setError(e as String);
     }

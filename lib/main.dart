@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:olx_clone/observables/base_screen_navigation/base_screen_navigation.dart';
 import 'package:olx_clone/screens/base/base_screen.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() async {
-  runApp(const MyApp());
+import 'observables/user_manager/user_manager.dart';
 
+void main() async {
   await dotenv.load(fileName: ".env");
 
   await Parse().initialize(dotenv.env['appId']!, dotenv.env['serverUrl']!,
@@ -13,6 +15,15 @@ void main() async {
       autoSendSessionId: true,
       debug: true,
       coreStore: await CoreStoreSembastImp.getInstance());
+
+  setUpLocators();
+
+  runApp(const MyApp());
+}
+
+setUpLocators() {
+  GetIt.I.registerSingleton(BaseScreenNavigation());
+  GetIt.I.registerSingleton(UserManager());
 }
 
 class MyApp extends StatelessWidget {

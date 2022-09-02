@@ -54,6 +54,10 @@ class ResponsiveWidget extends StatelessWidget {
     return min(475, MediaQuery.of(context).size.width);
   }
 
+  static double sizeWidth(BuildContext context) {
+    return MediaQuery.of(context).size.width;
+  }
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(

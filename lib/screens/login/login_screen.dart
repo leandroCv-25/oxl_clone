@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 import 'package:olx_clone/screens/signup/signup_screen.dart';
 import 'package:olx_clone/widgets/or_divider.dart';
 import 'package:olx_clone/widgets/App_icon_button.dart';
@@ -8,6 +9,7 @@ import 'package:olx_clone/widgets/app_text_field.dart';
 import 'package:olx_clone/widgets/responsive_widget.dart';
 
 import '../../observables/log_in/log_in_store.dart';
+import '../../observables/user_manager/user_manager.dart';
 import '../../widgets/error_box.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -48,7 +50,7 @@ class LoginScreen extends StatelessWidget {
                             title: "E-mail",
                             textInputType: TextInputType.emailAddress,
                             onChanged: logInStore.setEmail,
-                            enabled: logInStore.loading,
+                            enabled: !logInStore.loading,
                             errorText: logInStore.emailError,
                             prefix: const Icon(Icons.email),
                           );
@@ -70,7 +72,7 @@ class LoginScreen extends StatelessWidget {
                             ),
                             textInputType: TextInputType.visiblePassword,
                             onChanged: logInStore.setPass,
-                            enabled: logInStore.loading,
+                            enabled: !logInStore.loading,
                             obscure: logInStore.obscure,
                             errorText: logInStore.passError,
                             prefix: const Icon(Icons.password),
@@ -99,7 +101,12 @@ class LoginScreen extends StatelessWidget {
                                             logInStore.formValid ? 255 : 120),
                                   ),
                                   onPressed: logInStore.formValid
-                                      ? logInStore.logIn
+                                      ? () {
+                                          logInStore.logIn();
+                                          if (GetIt.I<UserManager>().isLoggedIn) {
+                                            Navigator.pop(context);
+                                          }
+                                        }
                                       : null,
                                   child: logInStore.loading
                                       ? const CircularProgressIndicator(

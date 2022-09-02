@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 import 'package:olx_clone/observables/sign_up/sign_up_store.dart';
 import 'package:olx_clone/screens/login/login_screen.dart';
 import 'package:olx_clone/screens/signup/widgets/pass_widget.dart';
@@ -9,6 +10,8 @@ import 'package:olx_clone/widgets/or_divider.dart';
 import 'package:olx_clone/widgets/App_icon_button.dart';
 import 'package:olx_clone/widgets/app_text_field.dart';
 import 'package:olx_clone/widgets/responsive_widget.dart';
+
+import '../../observables/user_manager/user_manager.dart';
 
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({Key? key}) : super(key: key);
@@ -108,7 +111,13 @@ class SignUpScreen extends StatelessWidget {
                                             signUpStore.formValid ? 255 : 120),
                                   ),
                                   onPressed: signUpStore.formValid
-                                      ? signUpStore.signUp
+                                      ? () {
+                                          signUpStore.signUp();
+                                          if (GetIt.I<UserManager>()
+                                              .isLoggedIn) {
+                                            Navigator.pop(context);
+                                          }
+                                        }
                                       : null,
                                   child: signUpStore.loading
                                       ? const CircularProgressIndicator(

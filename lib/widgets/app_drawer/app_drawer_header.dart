@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:olx_clone/screens/login/login_screen.dart';
 
+import '../../observables/base_screen_navigation/base_screen_navigation.dart';
+import '../../observables/user_manager/user_manager.dart';
+
 class AppDrawerHeader extends StatelessWidget {
-  const AppDrawerHeader({Key? key}) : super(key: key);
+  AppDrawerHeader({Key? key}) : super(key: key);
+
+  final userManager = GetIt.I<UserManager>();
 
   @override
   Widget build(BuildContext context) {
@@ -13,8 +19,12 @@ class AppDrawerHeader extends StatelessWidget {
           child: GestureDetector(
             onTap: () {
               Navigator.pop(context);
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => LoginScreen()));
+              if (userManager.isLoggedIn) {
+                GetIt.I<BaseScreenNavigation>().setPage(4);
+              } else {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => LoginScreen()));
+              }
             },
             child: Row(
               children: [
@@ -30,14 +40,18 @@ class AppDrawerHeader extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Acesse sua conta agora!",
+                        userManager.isLoggedIn
+                            ? userManager.user!.name
+                            : "Acesse sua conta agora!",
                         style: Theme.of(context)
                             .textTheme
                             .headline6
                             ?.copyWith(color: Colors.white),
                       ),
                       Text(
-                        "Clique aqui",
+                        userManager.isLoggedIn
+                            ? userManager.user!.email
+                            : "Clique aqui",
                         style: Theme.of(context)
                             .textTheme
                             .bodyText2
