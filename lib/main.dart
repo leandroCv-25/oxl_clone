@@ -5,6 +5,7 @@ import 'package:olx_clone/screens/base/base_screen.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import 'observables/categories/categories_store.dart';
 import 'observables/user_manager/user_manager.dart';
 
 void main() async {
@@ -24,6 +25,7 @@ void main() async {
 setUpLocators() {
   GetIt.I.registerSingleton(BaseScreenNavigation());
   GetIt.I.registerSingleton(UserManager());
+  GetIt.I.registerSingleton(CategoriesStore());
 }
 
 class MyApp extends StatelessWidget {

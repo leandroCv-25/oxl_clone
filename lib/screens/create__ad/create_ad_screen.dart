@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:olx_clone/screens/create__ad/widgets/category_field.dart';
 import 'package:olx_clone/screens/create__ad/widgets/images_fields.dart';
 import 'package:olx_clone/widgets/app_drawer/app_drawer.dart';
 
@@ -36,6 +37,7 @@ class CreateAdScreen extends StatelessWidget {
             onChanged: (_) {},
             enabled: true,
           ),
+          CategoryField(createAdStore: _createAdStore),
           AppTextField(
             title: "Preço (R\$)",
             textInputType: const TextInputType.numberWithOptions(decimal: true),
