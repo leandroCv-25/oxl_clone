@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class AppTextField extends StatelessWidget {
-  const AppTextField({
-    Key? key,
-    this.hint,
-    this.prefix,
-    this.suffix,
-    this.maxLines = 1,
-    this.obscure = false,
-    required this.textInputType,
-    required this.onChanged,
-    required this.enabled,
-    this.controller,
-    this.title,
-    this.subtitle,
-    this.errorText,
-  }) : super(key: key);
+  const AppTextField(
+      {Key? key,
+      this.hint,
+      this.prefix,
+      this.suffix,
+      this.maxLines = 1,
+      this.obscure = false,
+      required this.textInputType,
+      required this.onChanged,
+      required this.enabled,
+      this.controller,
+      this.title,
+      this.subtitle,
+      this.errorText,
+      this.inputFormatters})
+      : super(key: key);
 
+  final List<TextInputFormatter>? inputFormatters;
   final TextEditingController? controller;
   final String? hint;
   final Widget? prefix;
