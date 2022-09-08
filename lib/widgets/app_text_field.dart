@@ -67,6 +67,7 @@ class AppTextField extends StatelessWidget {
                     ? const EdgeInsets.symmetric(horizontal: 32)
                     : const EdgeInsets.only(left: 16),
                 child: TextField(
+                  inputFormatters: inputFormatters,
                   maxLines: maxLines,
                   controller: controller,
                   obscureText: obscure,
@@ -87,9 +88,9 @@ class AppTextField extends StatelessWidget {
                 errorText ?? "",
                 style: Theme.of(context)
                     .textTheme
-                    .bodyText2
+                    .caption
                     ?.copyWith(color: Colors.red),
-              )
+              ),
             ],
           ),
         ),

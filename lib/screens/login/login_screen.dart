@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:olx_clone/screens/signup/signup_screen.dart';
+import 'package:olx_clone/widgets/app_outlined_button.dart';
 import 'package:olx_clone/widgets/or_divider.dart';
 import 'package:olx_clone/widgets/App_icon_button.dart';
 import 'package:olx_clone/widgets/app_text_field.dart';
@@ -86,42 +87,16 @@ class LoginScreen extends StatelessWidget {
                           );
                         }),
                         Observer(builder: (context) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 8, horizontal: 32),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: SizedBox(
-                                height: 40,
-                                child: OutlinedButton(
-                                  style: OutlinedButton.styleFrom(
-                                    backgroundColor: Theme.of(context)
-                                        .secondaryHeaderColor
-                                        .withAlpha(
-                                            logInStore.formValid ? 255 : 120),
-                                  ),
-                                  onPressed: logInStore.formValid
-                                      ? () {
-                                          logInStore.logIn();
-                                          if (GetIt.I<UserManager>().isLoggedIn) {
-                                            Navigator.pop(context);
-                                          }
-                                        }
-                                      : null,
-                                  child: logInStore.loading
-                                      ? const CircularProgressIndicator(
-                                          color: Colors.white,
-                                        )
-                                      : Text(
-                                          "Entrar",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1
-                                              ?.copyWith(color: Colors.white),
-                                        ),
-                                ),
-                              ),
-                            ),
+                          return AppOutlinedButton(
+                            loading: logInStore.loading,
+                            enabled: logInStore.formValid,
+                            onPressed: () {
+                              logInStore.logIn();
+                              if (GetIt.I<UserManager>().isLoggedIn) {
+                                Navigator.pop(context);
+                              }
+                            },
+                            textChild: "Entrar",
                           );
                         }),
                         Observer(builder: (_) {

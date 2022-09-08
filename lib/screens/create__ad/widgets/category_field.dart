@@ -26,30 +26,44 @@ class CategoryField extends StatelessWidget {
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                child: Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.rectangle,
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(32),
-                  ),
-                  child: ListTile(
-                    title: (createAdStore.category == null)
-                        ? null
-                        : Text(
-                            createAdStore.category!.description,
-                            style: Theme.of(context).textTheme.bodyText1,
-                          ),
-                    trailing: const Icon(Icons.keyboard_arrow_right),
-                    onTap: () async {
-                      final category = await showDialog(
-                        context: context,
-                        builder: (context) =>
-                            CategoryScreen(selected: createAdStore.category),
-                      );
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(32),
+                      ),
+                      child: ListTile(
+                        title: (createAdStore.category == null)
+                            ? null
+                            : Text(
+                                createAdStore.category!.description,
+                                style: Theme.of(context).textTheme.bodyText1,
+                              ),
+                        trailing: const Icon(Icons.keyboard_arrow_right),
+                        onTap: () async {
+                          final category = await showDialog(
+                            context: context,
+                            builder: (context) => CategoryScreen(
+                                selected: createAdStore.category),
+                          );
 
-                      if (category != null) createAdStore.setCategory(category);
-                    },
-                  ),
+                          if (category != null) {
+                            createAdStore.setCategory(category);
+                          }
+                        },
+                      ),
+                    ),
+                    if (createAdStore.categoryError != null)
+                      Text(
+                        createAdStore.categoryError!,
+                        style: Theme.of(context).textTheme.caption?.copyWith(
+                              color: Colors.red,
+                            ),
+                      ),
+                  ],
                 ),
               ),
             ],

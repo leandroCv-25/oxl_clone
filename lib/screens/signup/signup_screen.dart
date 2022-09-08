@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:olx_clone/observables/sign_up/sign_up_store.dart';
 import 'package:olx_clone/screens/login/login_screen.dart';
 import 'package:olx_clone/screens/signup/widgets/pass_widget.dart';
+import 'package:olx_clone/widgets/app_outlined_button.dart';
 import 'package:olx_clone/widgets/error_box.dart';
 import 'package:olx_clone/widgets/or_divider.dart';
 import 'package:olx_clone/widgets/App_icon_button.dart';
@@ -103,33 +104,16 @@ class SignUpScreen extends StatelessWidget {
                             child: SizedBox(
                               height: 40,
                               child: Observer(builder: (context) {
-                                return OutlinedButton(
-                                  style: OutlinedButton.styleFrom(
-                                    backgroundColor: Theme.of(context)
-                                        .secondaryHeaderColor
-                                        .withAlpha(
-                                            signUpStore.formValid ? 255 : 120),
-                                  ),
-                                  onPressed: signUpStore.formValid
-                                      ? () {
-                                          signUpStore.signUp();
-                                          if (GetIt.I<UserManager>()
-                                              .isLoggedIn) {
-                                            Navigator.pop(context);
-                                          }
-                                        }
-                                      : null,
-                                  child: signUpStore.loading
-                                      ? const CircularProgressIndicator(
-                                          color: Colors.white,
-                                        )
-                                      : Text(
-                                          "Cadastra-se",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1
-                                              ?.copyWith(color: Colors.white),
-                                        ),
+                                return AppOutlinedButton(
+                                  onPressed: () {
+                                    signUpStore.signUp();
+                                    if (GetIt.I<UserManager>().isLoggedIn) {
+                                      Navigator.pop(context);
+                                    }
+                                  },
+                                  enabled: signUpStore.formValid,
+                                  loading: signUpStore.loading,
+                                  textChild: "Cadastra-se",
                                 );
                               }),
                             ),

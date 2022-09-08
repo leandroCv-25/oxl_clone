@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:olx_clone/models/address.dart';
 import 'package:olx_clone/repositories/ibge_repository.dart';
 
+import '../models/city.dart';
+
 class ZipRepository {
   Future<Address> getAddressFromApi(String zip) async {
     final endpoint = 'http://viacep.com.br/ws/$zip/json';
@@ -16,7 +18,7 @@ class ZipRepository {
 
       return Address(
         uf: ufList.firstWhere((uf) => uf.initials == response.data!['uf']),
-        city: response.data!['localidade'],
+        city: City(name:response.data!['localidade']),
         cep: response.data!['cep'],
         district: response.data!['bairro'],
       );
