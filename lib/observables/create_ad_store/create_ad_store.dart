@@ -3,6 +3,7 @@ import 'package:mobx/mobx.dart';
 import 'package:olx_clone/models/ad.dart';
 import 'package:olx_clone/models/category.dart';
 import 'package:olx_clone/observables/user_manager/user_manager.dart';
+import 'package:olx_clone/repositories/ad_repository.dart';
 
 import '../../models/address.dart';
 import '../zip_store/zip_store.dart';
@@ -18,6 +19,8 @@ abstract class _CreateAdStore with Store {
   bool loading = false;
   @observable
   String? error;
+  @observable
+  bool savedAd = false;
 
   ObservableList images = ObservableList();
 
@@ -159,7 +162,10 @@ abstract class _CreateAdStore with Store {
         price: price!,
         hidePhone: hidePhone,
         user: GetIt.I<UserManager>().user!);
-    try {} catch (e) {
+    try {
+      AdRepository().save(ad);
+      savedAd = true;
+    } catch (e) {
       error = e as String;
     }
 
