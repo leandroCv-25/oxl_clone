@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:olx_clone/observables/base_screen_navigation/base_screen_navigation.dart';
+import 'package:olx_clone/observables/home_store/home_store.dart';
 import 'package:olx_clone/screens/base/base_screen.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -25,6 +26,7 @@ void main() async {
 setUpLocators() {
   GetIt.I.registerSingleton(BaseScreenNavigation());
   GetIt.I.registerSingleton(UserManager());
+  GetIt.I.registerSingleton(HomeStore());
   GetIt.I.registerSingleton(CategoriesStore());
 }
 
