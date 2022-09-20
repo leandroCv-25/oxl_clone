@@ -102,7 +102,7 @@ class SignUpScreen extends StatelessWidget {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(20),
                             child: SizedBox(
-                              height: 40,
+                              height: 60,
                               child: Observer(builder: (context) {
                                 return AppOutlinedButton(
                                   onPressed: () {

@@ -15,6 +15,9 @@ class Ad {
     required this.user,
     this.views = 0,
     this.status = AdStatus.pending,
+    this.id,
+    required this.images,
+    this.created,
   });
 
   String? id;

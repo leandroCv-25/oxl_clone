@@ -1,12 +1,13 @@
-const keyUserName = "name";
-const keyUserId = "Id";
-const keyUserEmail = "email";
-const keyUserType = "user_type";
-const keyUserCreateAt = "CreatedAt";
+const String  keyUserName = "name";
+const String  keyUserId = "objectId";
+const String  keyUserEmail = "email";
+const String  keyUserLogin = "username";
+const String  keyUserType = "user_type";
+const String  keyUserCreateAt = "createdAt";
 
-const keyCategoryTable = 'Categories';
-const keyCategoryDescription = 'Description';
-const keyCategoryId = 'objectId';
+const String  keyCategoryTable = 'Categories';
+const String  keyCategoryDescription = 'Description';
+const String keyCategoryId = 'objectId';
 
 const String keyAdTable = 'Ad';
 const String keyAdId = 'objectId';

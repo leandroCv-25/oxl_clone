@@ -5,12 +5,21 @@ import 'package:olx_clone/screens/home/widgets/top_bar.dart';
 import 'package:olx_clone/widgets/app_drawer/app_drawer.dart';
 
 import '../../observables/home_store/home_store.dart';
+import 'widgets/ad_tile.dart';
+import 'widgets/create_ad_button.dart';
 import 'widgets/search_dialog.dart';
 
-class HomeScreen extends StatelessWidget {
-  HomeScreen({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   final HomeStore homeStore = GetIt.I<HomeStore>();
+
+  final ScrollController scrollController = ScrollController();
 
   openSearch(BuildContext context) async {
     final search = await showDialog(
@@ -63,6 +72,74 @@ class HomeScreen extends StatelessWidget {
       body: Column(
         children: [
           TopBar(),
+          Expanded(
+            child: Stack(
+              children: [
+                Observer(builder: (context) {
+                  if (homeStore.error != null) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Icon(
+                            Icons.error,
+                            color: Colors.white,
+                            size: 100,
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Text(
+                            'Ocorreu um erro!',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                  if (homeStore.showProgress) {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation(Colors.white),
+                      ),
+                    );
+                  }
+                  // if (homeStore.adList.isEmpty) {
+                  //   return EmptyCard('Nenhum anúncio encontrado.');
+                  // }
+                  return ListView.builder(
+                    controller: scrollController,
+                    itemCount: homeStore.itemCount,
+                    itemBuilder: (_, index) {
+                      if (index < homeStore.adList.length) {
+                        return AdTile(homeStore.adList[index]);
+                      }
+
+                      homeStore.loadNextPage();
+                      return const SizedBox(
+                        height: 10,
+                        child: LinearProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation(Colors.purple),
+                        ),
+                      );
+                    },
+                  );
+                }),
+                Positioned(
+                  bottom: -50,
+                  left: 0,
+                  right: 0,
+                  child: CreateAdButton(scrollController),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );

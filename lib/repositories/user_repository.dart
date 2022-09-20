@@ -49,7 +49,7 @@ class UserRepository {
 
   User mapParseToUser(ParseUser parseUser) {
     return User(
-      email: parseUser.get(keyUserEmail),
+      email: parseUser.get(keyUserLogin),
       name: parseUser.get(keyUserName),
       userType: UserType.values[parseUser.get(keyUserType)],
       createdAt: parseUser.get(keyUserCreateAt),

@@ -16,7 +16,7 @@ class IBGERepository {
       final List<UF> ufList = jsonUF?.map<UF>((j) => UF.fromJson(j)).toList();
 
       ufList.sort(
-        (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()),
+        (a, b) => a.name!.toLowerCase().compareTo(b.name!.toLowerCase()),
       );
       return ufList;
     }
@@ -34,7 +34,7 @@ class IBGERepository {
         return Future.error("Falha ao obter a lista dos estados.");
       } else {
         ufList.sort(
-          (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()),
+          (a, b) => a.name!.toLowerCase().compareTo(b.name!.toLowerCase()),
         );
         return ufList;
       }

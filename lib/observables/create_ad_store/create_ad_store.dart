@@ -155,15 +155,17 @@ abstract class _CreateAdStore with Store {
     loading = true;
 
     Ad ad = Ad(
-        title: title,
-        description: description,
-        category: category!,
-        address: address!,
-        price: price!,
-        hidePhone: hidePhone,
-        user: GetIt.I<UserManager>().user!);
+      title: title,
+      description: description,
+      category: category!,
+      address: address!,
+      price: price!,
+      hidePhone: hidePhone,
+      user: GetIt.I<UserManager>().user!,
+      images: images.toList(),
+    );
     try {
-      AdRepository().save(ad);
+      await AdRepository().save(ad);
       savedAd = true;
     } catch (e) {
       error = e as String;

@@ -32,11 +32,6 @@ class _CreateAdScreenState extends State<CreateAdScreen> {
       //   Navigator.of(context).pop(true);
       // } else {
       GetIt.I<BaseScreenNavigation>().setPage(0);
-      // Navigator.of(context).push(
-      //   MaterialPageRoute(
-      //     builder: (_) => const HomeScreen(),
-      //   ),
-      // );
       // }
     });
   }
@@ -52,19 +47,23 @@ class _CreateAdScreenState extends State<CreateAdScreen> {
         if (_createAdStore.loading) {
           return Padding(
             padding: const EdgeInsets.all(16),
-            child: Column(
-              children: const [
-                Text(
-                  'Salvando Anúncio',
-                  style: TextStyle(fontSize: 18, color: Colors.purple),
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation(Colors.purple),
-                )
-              ],
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: const [
+                  Text(
+                    'Salvando Anúncio',
+                    style: TextStyle(fontSize: 18, color: Colors.purple),
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation(Colors.purple),
+                  )
+                ],
+              ),
             ),
           );
         } else {
