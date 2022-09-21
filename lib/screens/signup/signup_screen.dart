@@ -1,5 +1,7 @@
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:olx_clone/observables/sign_up/sign_up_store.dart';
@@ -67,6 +69,25 @@ class SignUpScreen extends StatelessWidget {
                             enabled: !signUpStore.loading,
                             errorText: signUpStore.emailError,
                             prefix: const Icon(Icons.email),
+                          );
+                        }),
+                        Observer(builder: (context) {
+                          return Column(
+                            children: [
+                              AppTextField(
+                                onChanged: signUpStore.setPhone,
+                                title: "Celular",
+                                errorText: signUpStore.phoneError,
+                                subtitle: const Text('Proteja sua conta'),
+                                textInputType: TextInputType.phone,
+                                enabled: !signUpStore.loading,
+                                prefix: const Icon(Icons.phone),
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                  TelefoneInputFormatter()
+                                ],
+                              ),
+                            ],
                           );
                         }),
                         Observer(builder: (context) {

@@ -10,6 +10,7 @@ class UserRepository {
 
     parseUser.set<String>(keyUserName, user.name);
     parseUser.set<int>(keyUserType, user.userType.index);
+    parseUser.set<String>(keyUserPhone, user.phone!);
 
     final response = await parseUser.signUp();
 
@@ -51,6 +52,7 @@ class UserRepository {
     return User(
       email: parseUser.get(keyUserLogin),
       name: parseUser.get(keyUserName),
+      phone: parseUser.get(keyUserPhone),
       userType: UserType.values[parseUser.get(keyUserType)],
       createdAt: parseUser.get(keyUserCreateAt),
       id: parseUser.get(keyUserId),

@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class PriceField extends StatelessWidget {
-  const PriceField({this.label, required this.onChanged, this.initialValue});
+  const PriceField(
+      {super.key, this.label, required this.onChanged, this.initialValue});
 
   final String? label;
   final Function(int) onChanged;

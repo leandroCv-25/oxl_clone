@@ -49,6 +49,24 @@ abstract class _SignUpStoreBase with Store {
   }
 
   @observable
+  String? phone;
+
+  @action
+  void setPhone(String value) => phone = value;
+
+  @computed
+  bool get phoneValid => phone != null && phone!.length >= 14;
+  String? get phoneError {
+    if (phone == null || phoneValid) {
+      return null;
+    } else if (phone!.isEmpty) {
+      return 'Campo obrigatório';
+    } else {
+      return 'Celular inválido';
+    }
+  }
+
+  @observable
   String? _pass;
   bool obscure = true;
 

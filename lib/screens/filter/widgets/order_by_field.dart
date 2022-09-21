@@ -4,7 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import '../../../observables/filter_store/filter_store.dart';
 
 class OrderByField extends StatelessWidget {
-  const OrderByField(this.filter);
+  const OrderByField(this.filter, {super.key});
 
   final FilterStore filter;
 

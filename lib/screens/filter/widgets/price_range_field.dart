@@ -6,7 +6,7 @@ import 'package:olx_clone/widgets/error_box.dart';
 import '../../../observables/filter_store/filter_store.dart';
 
 class PriceRangeField extends StatelessWidget {
-  const PriceRangeField(this.filter);
+  const PriceRangeField(this.filter, {super.key});
 
   final FilterStore filter;
 

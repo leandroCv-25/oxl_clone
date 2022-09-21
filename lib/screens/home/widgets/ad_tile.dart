@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:olx_clone/helpers/extensions.dart';
 
 import '../../../models/ad.dart';
+import '../../ad/ad_screen.dart';
 
 class AdTile extends StatelessWidget {
-  const AdTile(this.ad);
+  const AdTile(this.ad, {super.key});
 
   final Ad ad;
 
@@ -13,8 +14,8 @@ class AdTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Navigator.of(context)
-        //     .push(MaterialPageRoute(builder: (_) => AdScreen(ad)));
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (_) => AdScreen(ad)));
       },
       child: Container(
         height: 127,

@@ -10,6 +10,8 @@ import 'bar_button.dart';
 class TopBar extends StatelessWidget {
   final HomeStore homeStore = GetIt.I<HomeStore>();
 
+  TopBar({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Row(

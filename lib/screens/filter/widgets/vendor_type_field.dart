@@ -5,7 +5,7 @@ import 'package:olx_clone/screens/filter/widgets/vendor_type_button.dart';
 import '../../../observables/filter_store/filter_store.dart';
 
 class VendorTypeField extends StatelessWidget {
-  const VendorTypeField(this.filter);
+  const VendorTypeField(this.filter, {super.key});
 
   final FilterStore filter;
 

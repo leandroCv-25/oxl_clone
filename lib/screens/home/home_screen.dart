@@ -5,6 +5,7 @@ import 'package:olx_clone/screens/home/widgets/top_bar.dart';
 import 'package:olx_clone/widgets/app_drawer/app_drawer.dart';
 
 import '../../observables/home_store/home_store.dart';
+import '../../widgets/empty_card.dart';
 import 'widgets/ad_tile.dart';
 import 'widgets/create_ad_button.dart';
 import 'widgets/search_dialog.dart';
@@ -81,24 +82,18 @@ class _HomeScreenState extends State<HomeScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
+                        children: [
                           Icon(
                             Icons.error,
-                            color: Colors.white,
+                            color: Theme.of(context).primaryColor,
                             size: 100,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 8,
                           ),
-                          Text(
-                            'Ocorreu um erro!',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
+                          Text('Ocorreu um erro!',
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.bodyText1),
                         ],
                       ),
                     );
@@ -110,9 +105,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     );
                   }
-                  // if (homeStore.adList.isEmpty) {
-                  //   return EmptyCard('Nenhum anúncio encontrado.');
-                  // }
+                  if (homeStore.adList.isEmpty) {
+                    return const EmptyCard('Nenhum anúncio encontrado.');
+                  }
+
                   return ListView.builder(
                     controller: scrollController,
                     itemCount: homeStore.itemCount,
@@ -120,7 +116,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       if (index < homeStore.adList.length) {
                         return AdTile(homeStore.adList[index]);
                       }
-
                       homeStore.loadNextPage();
                       return const SizedBox(
                         height: 10,

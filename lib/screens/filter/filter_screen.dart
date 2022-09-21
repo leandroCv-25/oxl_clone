@@ -11,6 +11,8 @@ import 'widgets/price_range_field.dart';
 class FilterScreen extends StatelessWidget {
   final FilterStore filter = GetIt.I<HomeStore>().clonedFilter;
 
+  FilterScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

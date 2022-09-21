@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:olx_clone/observables/base_screen_navigation/base_screen_navigation.dart';
+import 'package:olx_clone/screens/account/acount_screen.dart';
 import 'package:olx_clone/screens/create__ad/create_ad_screen.dart';
 import 'package:olx_clone/screens/home/home_screen.dart';
 
@@ -20,12 +21,12 @@ class BaseScreen extends StatelessWidget {
       body: PageView(
         controller: pageController,
         physics: const NeverScrollableScrollPhysics(),
-        children: [
+        children: const [
           HomeScreen(),
-          const CreateAdScreen(),
+          CreateAdScreen(),
           HomeScreen(),
           HomeScreen(),
-          HomeScreen(),
+          AccountScreen(),
         ],
       ),
     );

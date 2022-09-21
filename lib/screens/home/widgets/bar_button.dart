@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class BarButton extends StatelessWidget {
-  const BarButton({required this.label, required this.decoration, this.onTap});
+  const BarButton(
+      {super.key, required this.label, required this.decoration, this.onTap});
 
   final String label;
   final BoxDecoration decoration;
