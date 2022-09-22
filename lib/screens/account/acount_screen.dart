@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:olx_clone/screens/myads/myads_screen.dart';
 import 'package:olx_clone/widgets/app_drawer/app_drawer.dart';
 
 import '../../observables/user_manager/user_manager.dart';
@@ -63,23 +64,26 @@ class AccountScreen extends StatelessWidget {
             ),
           ),
           ListTile(
-            title: const Text(
+            title: Text(
               'Meus anúncios',
-              style: TextStyle(
-                color: Colors.purple,
-                fontWeight: FontWeight.w600,
-              ),
+              style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                    color: Theme.of(context).primaryColor,
+                  ),
             ),
             trailing: const Icon(Icons.keyboard_arrow_right),
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const MyAdsScreen(
+                        initialPage: 0,
+                      )));
+            },
           ),
           ListTile(
-            title: const Text(
+            title: Text(
               'Favoritos',
-              style: TextStyle(
-                color: Colors.purple,
-                fontWeight: FontWeight.w600,
-              ),
+              style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                    color: Theme.of(context).primaryColor,
+                  ),
             ),
             trailing: const Icon(Icons.keyboard_arrow_right),
             onTap: () {},

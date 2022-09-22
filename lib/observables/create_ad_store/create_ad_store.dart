@@ -13,6 +13,22 @@ part 'create_ad_store.g.dart';
 class CreateAdStore = _CreateAdStore with _$CreateAdStore;
 
 abstract class _CreateAdStore with Store {
+  _CreateAdStore(Ad? ad) {
+    if (ad != null) {
+      title = ad.title;
+      description = ad.description;
+      images = ad.images.asObservable();
+      category = ad.category;
+      priceText = ad.price.toStringAsFixed(2);
+      hidePhone = ad.hidePhone;
+
+      zipStore = ZipStore(ad.address.cep);
+      setEditing(true);
+    } else {
+      setEditing(false);
+    }
+  }
+
   @observable
   bool showErrors = false;
   @observable
@@ -21,8 +37,13 @@ abstract class _CreateAdStore with Store {
   String? error;
   @observable
   bool savedAd = false;
+  @observable
+  bool editing = false;
 
   ObservableList images = ObservableList();
+
+  @action
+  void setEditing(bool value) => editing = value;
 
   @computed
   bool get imagesValid => images.isNotEmpty;

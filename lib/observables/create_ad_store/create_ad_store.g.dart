@@ -128,6 +128,22 @@ mixin _$CreateAdStore on _CreateAdStore, Store {
     });
   }
 
+  late final _$editingAtom =
+      Atom(name: '_CreateAdStore.editing', context: context);
+
+  @override
+  bool get editing {
+    _$editingAtom.reportRead();
+    return super.editing;
+  }
+
+  @override
+  set editing(bool value) {
+    _$editingAtom.reportWrite(value, super.editing, () {
+      super.editing = value;
+    });
+  }
+
   late final _$titleAtom = Atom(name: '_CreateAdStore.title', context: context);
 
   @override
@@ -219,6 +235,17 @@ mixin _$CreateAdStore on _CreateAdStore, Store {
       ActionController(name: '_CreateAdStore', context: context);
 
   @override
+  void setEditing(bool value) {
+    final _$actionInfo = _$_CreateAdStoreActionController.startAction(
+        name: '_CreateAdStore.setEditing');
+    try {
+      return super.setEditing(value);
+    } finally {
+      _$_CreateAdStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setTitle(String value) {
     final _$actionInfo = _$_CreateAdStoreActionController.startAction(
         name: '_CreateAdStore.setTitle');
@@ -291,6 +318,7 @@ showErrors: ${showErrors},
 loading: ${loading},
 error: ${error},
 savedAd: ${savedAd},
+editing: ${editing},
 title: ${title},
 description: ${description},
 category: ${category},

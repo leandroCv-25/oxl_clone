@@ -9,30 +9,36 @@ import 'package:olx_clone/widgets/app_drawer/app_drawer.dart';
 import 'package:olx_clone/widgets/app_outlined_button.dart';
 import 'package:olx_clone/widgets/error_box.dart';
 
+import '../../models/ad.dart';
 import '../../observables/base_screen_navigation/base_screen_navigation.dart';
 import '../../observables/create_ad_store/create_ad_store.dart';
 import '../../widgets/app_text_field.dart';
 import 'widgets/zip_field.dart';
 
 class CreateAdScreen extends StatefulWidget {
-  const CreateAdScreen({Key? key}) : super(key: key);
+  const CreateAdScreen({Key? key, this.ad}) : super(key: key);
+
+  final Ad? ad;
 
   @override
   State<CreateAdScreen> createState() => _CreateAdScreenState();
 }
 
 class _CreateAdScreenState extends State<CreateAdScreen> {
-  final CreateAdStore _createAdStore = CreateAdStore();
+  _CreateAdScreenState();
+  late final CreateAdStore _createAdStore;
 
   @override
   void initState() {
+    _createAdStore = CreateAdStore(widget.ad);
+
     super.initState();
     when((_) => _createAdStore.savedAd, () {
-      // if (editing) {
-      //   Navigator.of(context).pop(true);
-      // } else {
-      GetIt.I<BaseScreenNavigation>().setPage(0);
-      // }
+      if (_createAdStore.editing) {
+        Navigator.of(context).pop(true);
+      } else {
+        GetIt.I<BaseScreenNavigation>().setPage(0);
+      }
     });
   }
 
@@ -40,9 +46,10 @@ class _CreateAdScreenState extends State<CreateAdScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Inserir Anúncio"),
+        title:
+            Text(_createAdStore.editing ? "Editar Anúncio" : "Inserir Anúncio"),
       ),
-      drawer: AppDrawer(),
+      drawer: _createAdStore.editing ? null : AppDrawer(),
       body: Observer(builder: (context) {
         if (_createAdStore.loading) {
           return Padding(
@@ -73,6 +80,7 @@ class _CreateAdScreenState extends State<CreateAdScreen> {
               ImagesField(_createAdStore),
               Observer(builder: (context) {
                 return AppTextField(
+                    initialValue: _createAdStore.title,
                     errorText: _createAdStore.titleError,
                     title: "Título do anúncio*",
                     hint: "Ex: Samsung S9 novo na caixa",
@@ -82,6 +90,7 @@ class _CreateAdScreenState extends State<CreateAdScreen> {
               }),
               Observer(builder: (context) {
                 return AppTextField(
+                  initialValue: _createAdStore.description,
                   errorText: _createAdStore.descriptionError,
                   maxLines: 5,
                   title: "Descrição*",
@@ -95,6 +104,7 @@ class _CreateAdScreenState extends State<CreateAdScreen> {
               CategoryField(createAdStore: _createAdStore),
               Observer(builder: (context) {
                 return AppTextField(
+                  initialValue: _createAdStore.priceText,
                   errorText: _createAdStore.priceError,
                   title: "Preço (R\$)",
                   textInputType:

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -128,10 +129,16 @@ class ImagesField extends StatelessWidget {
                       },
                       child: SizedBox(
                         width: ResponsiveWidget.sizeWidth(context) - 50,
-                        child: Image.file(
-                          createAdStore.images[index],
-                          fit: BoxFit.fitWidth,
-                        ),
+                        child: createAdStore.images[index] is File
+                            ? Image.file(
+                                createAdStore.images[index],
+                                fit: BoxFit.fitWidth,
+                              )
+                            : Image(
+                                image: CachedNetworkImageProvider(
+                                    createAdStore.images[index]),
+                                fit: BoxFit.fitWidth,
+                              ),
                       ),
                     ),
                   );

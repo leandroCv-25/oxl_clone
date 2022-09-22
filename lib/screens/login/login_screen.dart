@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mobx/mobx.dart';
 import 'package:olx_clone/screens/signup/signup_screen.dart';
 import 'package:olx_clone/widgets/app_outlined_button.dart';
 import 'package:olx_clone/widgets/or_divider.dart';
@@ -13,10 +14,24 @@ import '../../observables/log_in/log_in_store.dart';
 import '../../observables/user_manager/user_manager.dart';
 import '../../widgets/error_box.dart';
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({Key? key}) : super(key: key);
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final logInStore = LogInStore();
+  final UserManager _userManager = GetIt.I<UserManager>();
+
+  @override
+  void initState() {
+    super.initState();
+    when((_) => _userManager.isLoggedIn, () {
+      Navigator.pop(context);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,11 +105,8 @@ class LoginScreen extends StatelessWidget {
                           return AppOutlinedButton(
                             loading: logInStore.loading,
                             enabled: logInStore.formValid,
-                            onPressed: () {
-                              logInStore.logIn();
-                              if (GetIt.I<UserManager>().isLoggedIn) {
-                                Navigator.pop(context);
-                              }
+                            onPressed: () async {
+                              await logInStore.logIn();
                             },
                             textChild: "Entrar",
                           );

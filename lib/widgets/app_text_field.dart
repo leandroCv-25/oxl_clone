@@ -2,22 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class AppTextField extends StatelessWidget {
-  const AppTextField(
-      {Key? key,
-      this.hint,
-      this.prefix,
-      this.suffix,
-      this.maxLines = 1,
-      this.obscure = false,
-      required this.textInputType,
-      required this.onChanged,
-      required this.enabled,
-      this.controller,
-      this.title,
-      this.subtitle,
-      this.errorText,
-      this.inputFormatters})
-      : super(key: key);
+  const AppTextField({
+    Key? key,
+    this.hint,
+    this.prefix,
+    this.suffix,
+    this.maxLines = 1,
+    this.obscure = false,
+    required this.textInputType,
+    required this.onChanged,
+    required this.enabled,
+    this.controller,
+    this.title,
+    this.subtitle,
+    this.errorText,
+    this.inputFormatters,
+    this.initialValue,
+  }) : super(key: key);
 
   final List<TextInputFormatter>? inputFormatters;
   final TextEditingController? controller;
@@ -32,6 +33,7 @@ class AppTextField extends StatelessWidget {
   final Widget? subtitle;
   final String? errorText;
   final int maxLines;
+  final String? initialValue;
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +68,8 @@ class AppTextField extends StatelessWidget {
                 padding: prefix != null
                     ? const EdgeInsets.symmetric(horizontal: 32)
                     : const EdgeInsets.only(left: 16),
-                child: TextField(
+                child: TextFormField(
+                  initialValue: initialValue,
                   inputFormatters: inputFormatters,
                   maxLines: maxLines,
                   controller: controller,

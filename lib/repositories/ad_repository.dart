@@ -185,4 +185,45 @@ class AdRepository {
       user: UserRepository().mapParseToUser(object.get<ParseUser>(keyAdOwner)!),
     );
   }
+
+  Future<List<Ad>> getMyAds(User user) async {
+    final currentUser = ParseUser('', '', '')..set(keyUserId, user.id);
+    final queryBuilder = QueryBuilder<ParseObject>(ParseObject(keyAdTable));
+
+    queryBuilder.setLimit(100);
+    queryBuilder.orderByDescending(keyAdCreatedAt);
+    queryBuilder.whereEqualTo(keyAdOwner, currentUser.toPointer());
+    queryBuilder.includeObject([keyAdCategory, keyAdOwner]);
+
+    final response = await queryBuilder.query();
+    if (response.success && response.results != null) {
+      return response.results!.map((po) => mapParseToAd(po)).toList();
+    } else if (response.success && response.results == null) {
+      return [];
+    } else {
+      return Future.error(ParseErrors.getDescription(response.error!.code));
+    }
+  }
+
+  Future<void> sold(Ad ad) async {
+    final parseObject = ParseObject(keyAdTable)..set(keyAdId, ad.id);
+
+    parseObject.set(keyAdStatus, AdStatus.sold.index);
+
+    final response = await parseObject.save();
+    if (!response.success && response.error != null) {
+      return Future.error(ParseErrors.getDescription(response.error!.code));
+    }
+  }
+
+  Future<void> delete(Ad ad) async {
+    final parseObject = ParseObject(keyAdTable)..set(keyAdId, ad.id);
+
+    parseObject.set(keyAdStatus, AdStatus.deleted.index);
+
+    final response = await parseObject.save();
+    if (!response.success && response.error != null) {
+      return Future.error(ParseErrors.getDescription(response.error!.code));
+    }
+  }
 }

@@ -21,6 +21,7 @@ class ZipField extends StatelessWidget {
       children: [
         Observer(builder: (context) {
           return AppTextField(
+            initialValue: zipStore.zip,
             title: "CEP:",
             prefix: const Icon(Icons.location_city),
             inputFormatters: [

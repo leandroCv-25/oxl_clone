@@ -23,6 +23,13 @@ mixin _$SignUpStore on _SignUpStoreBase, Store {
       (_$emailValidComputed ??= Computed<bool>(() => super.emailValid,
               name: '_SignUpStoreBase.emailValid'))
           .value;
+  Computed<bool>? _$phoneValidComputed;
+
+  @override
+  bool get phoneValid =>
+      (_$phoneValidComputed ??= Computed<bool>(() => super.phoneValid,
+              name: '_SignUpStoreBase.phoneValid'))
+          .value;
   Computed<int>? _$passValidUpperCaseComputed;
 
   @override
@@ -80,6 +87,22 @@ mixin _$SignUpStore on _SignUpStoreBase, Store {
   set email(String? value) {
     _$emailAtom.reportWrite(value, super.email, () {
       super.email = value;
+    });
+  }
+
+  late final _$phoneAtom =
+      Atom(name: '_SignUpStoreBase.phone', context: context);
+
+  @override
+  String? get phone {
+    _$phoneAtom.reportRead();
+    return super.phone;
+  }
+
+  @override
+  set phone(String? value) {
+    _$phoneAtom.reportWrite(value, super.phone, () {
+      super.phone = value;
     });
   }
 
@@ -165,6 +188,17 @@ mixin _$SignUpStore on _SignUpStoreBase, Store {
   }
 
   @override
+  void setPhone(String value) {
+    final _$actionInfo = _$_SignUpStoreBaseActionController.startAction(
+        name: '_SignUpStoreBase.setPhone');
+    try {
+      return super.setPhone(value);
+    } finally {
+      _$_SignUpStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setPass(String value) {
     final _$actionInfo = _$_SignUpStoreBaseActionController.startAction(
         name: '_SignUpStoreBase.setPass');
@@ -191,10 +225,12 @@ mixin _$SignUpStore on _SignUpStoreBase, Store {
     return '''
 name: ${name},
 email: ${email},
+phone: ${phone},
 loading: ${loading},
 error: ${error},
 nameValid: ${nameValid},
 emailValid: ${emailValid},
+phoneValid: ${phoneValid},
 passValidUpperCase: ${passValidUpperCase},
 passError: ${passError},
 passStrenghGrade: ${passStrenghGrade},

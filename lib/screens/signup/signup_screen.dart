@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mobx/mobx.dart';
 import 'package:olx_clone/observables/sign_up/sign_up_store.dart';
 import 'package:olx_clone/screens/login/login_screen.dart';
 import 'package:olx_clone/screens/signup/widgets/pass_widget.dart';
@@ -16,10 +17,25 @@ import 'package:olx_clone/widgets/responsive_widget.dart';
 
 import '../../observables/user_manager/user_manager.dart';
 
-class SignUpScreen extends StatelessWidget {
-  SignUpScreen({Key? key}) : super(key: key);
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({Key? key}) : super(key: key);
 
+  @override
+  State<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
   final signUpStore = SignUpStore();
+
+  final UserManager _userManager = GetIt.I<UserManager>();
+
+  @override
+  void initState() {
+    super.initState();
+    when((_) => _userManager.isLoggedIn, () {
+      Navigator.pop(context);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -128,9 +144,6 @@ class SignUpScreen extends StatelessWidget {
                                 return AppOutlinedButton(
                                   onPressed: () {
                                     signUpStore.signUp();
-                                    if (GetIt.I<UserManager>().isLoggedIn) {
-                                      Navigator.pop(context);
-                                    }
                                   },
                                   enabled: signUpStore.formValid,
                                   loading: signUpStore.loading,
@@ -160,7 +173,7 @@ class SignUpScreen extends StatelessWidget {
                                 onTap: () {
                                   Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
-                                      builder: (context) => LoginScreen(),
+                                      builder: (context) => const LoginScreen(),
                                     ),
                                   );
                                 },
