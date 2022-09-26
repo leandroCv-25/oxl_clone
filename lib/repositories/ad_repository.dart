@@ -124,7 +124,7 @@ class AdRepository {
           ParseObject(keyCategoryTable)..set(keyCategoryId, ad.category.id));
       ParseResponse response;
       if (ad.id != null) {
-        response = await adObject.save();
+        response = await adObject.update();
       } else {
         response = await adObject.create();
       }
@@ -149,12 +149,13 @@ class AdRepository {
                 ParseErrors.getDescription(response.error!.code));
           }
           parseImages.add(parseFile);
-        } else {
-          final parseFile = ParseFile(null);
-          parseFile.name = path.basename(image);
-          parseFile.url = image;
-          parseImages.add(parseFile);
         }
+        // else {
+        //   final parseFile = ParseFile(image);
+        //   parseFile.name = path.basename(image);
+        //   parseFile.url = image;
+        //   parseImages.add(parseFile);
+        // }
       }
 
       return parseImages;

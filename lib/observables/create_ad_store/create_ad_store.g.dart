@@ -65,6 +65,37 @@ mixin _$CreateAdStore on _CreateAdStore, Store {
               name: '_CreateAdStore.formValid'))
           .value;
 
+  late final _$statusAtom =
+      Atom(name: '_CreateAdStore.status', context: context);
+
+  @override
+  AdStatus get status {
+    _$statusAtom.reportRead();
+    return super.status;
+  }
+
+  @override
+  set status(AdStatus value) {
+    _$statusAtom.reportWrite(value, super.status, () {
+      super.status = value;
+    });
+  }
+
+  late final _$idAtom = Atom(name: '_CreateAdStore.id', context: context);
+
+  @override
+  String? get id {
+    _$idAtom.reportRead();
+    return super.id;
+  }
+
+  @override
+  set id(String? value) {
+    _$idAtom.reportWrite(value, super.id, () {
+      super.id = value;
+    });
+  }
+
   late final _$showErrorsAtom =
       Atom(name: '_CreateAdStore.showErrors', context: context);
 
@@ -314,6 +345,8 @@ mixin _$CreateAdStore on _CreateAdStore, Store {
   @override
   String toString() {
     return '''
+status: ${status},
+id: ${id},
 showErrors: ${showErrors},
 loading: ${loading},
 error: ${error},

@@ -5,6 +5,7 @@ import 'package:mobx/mobx.dart';
 import 'package:olx_clone/screens/create__ad/widgets/category_field.dart';
 import 'package:olx_clone/screens/create__ad/widgets/hide_phone_field.dart';
 import 'package:olx_clone/screens/create__ad/widgets/images_field.dart';
+import 'package:olx_clone/screens/myads/myads_screen.dart';
 import 'package:olx_clone/widgets/app_drawer/app_drawer.dart';
 import 'package:olx_clone/widgets/app_outlined_button.dart';
 import 'package:olx_clone/widgets/error_box.dart';
@@ -38,6 +39,11 @@ class _CreateAdScreenState extends State<CreateAdScreen> {
         Navigator.of(context).pop(true);
       } else {
         GetIt.I<BaseScreenNavigation>().setPage(0);
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => const MyAdsScreen(initialPage: 1),
+          ),
+        );
       }
     });
   }

@@ -15,6 +15,8 @@ class CreateAdStore = _CreateAdStore with _$CreateAdStore;
 abstract class _CreateAdStore with Store {
   _CreateAdStore(Ad? ad) {
     if (ad != null) {
+      status = ad.status;
+      id = ad.id;
       title = ad.title;
       description = ad.description;
       images = ad.images.asObservable();
@@ -29,6 +31,10 @@ abstract class _CreateAdStore with Store {
     }
   }
 
+  @observable
+  AdStatus status = AdStatus.pending;
+  @observable
+  String? id;
   @observable
   bool showErrors = false;
   @observable
@@ -176,6 +182,8 @@ abstract class _CreateAdStore with Store {
     loading = true;
 
     Ad ad = Ad(
+      status: status,
+      id: id,
       title: title,
       description: description,
       category: category!,
