@@ -67,11 +67,11 @@ abstract class _LogInStoreBase with Store {
 
     final userREpository = UserRepository();
     try {
+      setError(null);
       User user =
           await userREpository.logInWithEmail(email: email!, password: _pass!);
 
       GetIt.I<UserManager>().setUser(user);
-      
     } catch (e) {
       setError(e as String);
     }

@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 
 class AppOutlinedButton extends StatelessWidget {
-  const AppOutlinedButton({
-    super.key,
-    required this.onPressed,
-    required this.enabled,
-    required this.loading,
-    required this.textChild,
-  });
+  const AppOutlinedButton(
+      {super.key,
+      required this.onPressed,
+      required this.enabled,
+      required this.loading,
+      required this.textChild,
+      this.color});
 
   final Function() onPressed;
   final bool enabled;
   final bool loading;
   final String textChild;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +25,10 @@ class AppOutlinedButton extends StatelessWidget {
           height: 40,
           child: OutlinedButton(
             style: OutlinedButton.styleFrom(
-              backgroundColor: Theme.of(context)
-                  .secondaryHeaderColor
-                  .withAlpha(enabled ? 255 : 120),
+              backgroundColor: color?.withAlpha(enabled ? 255 : 120) ??
+                  Theme.of(context)
+                      .secondaryHeaderColor
+                      .withAlpha(enabled ? 255 : 120),
             ),
             onPressed: enabled ? onPressed : null,
             child: loading

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:olx_clone/screens/filter/widgets/vendor_type_button.dart';
+import 'package:olx_clone/widgets/vendor_type_button.dart';
 
 import '../../../observables/filter_store/filter_store.dart';
 
