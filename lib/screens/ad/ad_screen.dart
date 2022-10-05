@@ -1,8 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
+import 'package:olx_clone/observables/user_manager/user_manager.dart';
 
 import '../../models/ad.dart';
+import '../../observables/favorite/favorite_store.dart';
 import 'components/bottom_bar.dart';
 import 'components/description_panel.dart';
 import 'components/location_panel.dart';
@@ -10,15 +14,31 @@ import 'components/main_panel.dart';
 import 'components/user_panel.dart';
 
 class AdScreen extends StatelessWidget {
-  const AdScreen(this.ad, {super.key});
+  AdScreen(this.ad, {super.key});
 
   final Ad ad;
+
+  final UserManager userManager = GetIt.I<UserManager>();
+  final FavoriteStore favoriteStore = GetIt.I<FavoriteStore>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Anúncio"),
+        actions: [
+          if (ad.status == AdStatus.active && userManager.isLoggedIn)
+            Observer(builder: (_) {
+              return IconButton(
+                icon: Icon(
+                  favoriteStore.favoriteList.any((a) => a.id == ad.id)
+                      ? Icons.favorite
+                      : Icons.favorite_border,
+                ),
+                onPressed: () => favoriteStore.toggleFavorite(ad),
+              );
+            })
+        ],
       ),
       body: Stack(
         children: [

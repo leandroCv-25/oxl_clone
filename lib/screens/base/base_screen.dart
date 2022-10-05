@@ -4,6 +4,7 @@ import 'package:mobx/mobx.dart';
 import 'package:olx_clone/observables/base_screen_navigation/base_screen_navigation.dart';
 import 'package:olx_clone/screens/account/acount_screen.dart';
 import 'package:olx_clone/screens/create__ad/create_ad_screen.dart';
+import 'package:olx_clone/screens/favorites/favorites_screen.dart';
 import 'package:olx_clone/screens/home/home_screen.dart';
 
 class BaseScreen extends StatelessWidget {
@@ -21,12 +22,12 @@ class BaseScreen extends StatelessWidget {
       body: PageView(
         controller: pageController,
         physics: const NeverScrollableScrollPhysics(),
-        children: const [
-          HomeScreen(),
-          CreateAdScreen(),
-          HomeScreen(),
-          HomeScreen(),
-          AccountScreen(),
+        children: [
+          const HomeScreen(),
+          const CreateAdScreen(),
+          const HomeScreen(),
+          FavoritesScreen(),
+          const AccountScreen(),
         ],
       ),
     );

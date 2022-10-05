@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:olx_clone/screens/favorites/favorites_screen.dart';
 import 'package:olx_clone/screens/myads/myads_screen.dart';
 import 'package:olx_clone/widgets/app_drawer/app_drawer.dart';
 
@@ -86,7 +87,12 @@ class AccountScreen extends StatelessWidget {
                   ),
             ),
             trailing: const Icon(Icons.keyboard_arrow_right),
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => FavoritesScreen(
+                        hideDrawer: true,
+                      )));
+            },
           ),
         ],
       ),

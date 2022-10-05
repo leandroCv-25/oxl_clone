@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:olx_clone/observables/base_screen_navigation/base_screen_navigation.dart';
+import 'package:olx_clone/observables/favorite/favorite_store.dart';
 import 'package:olx_clone/observables/home_store/home_store.dart';
 import 'package:olx_clone/screens/base/base_screen.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
@@ -31,6 +32,7 @@ setUpLocators() {
   GetIt.I.registerSingleton(UserManager());
   GetIt.I.registerSingleton(HomeStore());
   GetIt.I.registerSingleton(CategoriesStore());
+  GetIt.I.registerSingleton(FavoriteStore());
 }
 
 class MyApp extends StatelessWidget {
