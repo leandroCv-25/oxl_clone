@@ -7,12 +7,37 @@ import 'package:olx_clone/screens/create__ad/create_ad_screen.dart';
 import 'package:olx_clone/screens/favorites/favorites_screen.dart';
 import 'package:olx_clone/screens/home/home_screen.dart';
 
-class BaseScreen extends StatelessWidget {
-  BaseScreen({Key? key}) : super(key: key);
+import '../../observables/connectivity/connectivity_store.dart';
+import '../offline/offline_screen.dart';
 
+class BaseScreen extends StatefulWidget {
+  const BaseScreen({Key? key}) : super(key: key);
+
+  @override
+  State<BaseScreen> createState() => _BaseScreenState();
+}
+
+class _BaseScreenState extends State<BaseScreen> {
   final PageController pageController = PageController();
+
   final BaseScreenNavigation baseScreenNavigation =
       GetIt.I<BaseScreenNavigation>();
+
+  final ConnectivityStore connectivityStore = GetIt.I<ConnectivityStore>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    autorun((_) {
+      
+      if (!connectivityStore.connected) {
+        Future.delayed(const Duration(milliseconds: 50)).then((value) {
+          showDialog(context: context, builder: (_) => OfflineScreen());
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -9,6 +9,7 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'observables/categories/categories_store.dart';
+import 'observables/connectivity/connectivity_store.dart';
 import 'observables/user_manager/user_manager.dart';
 
 void main() async {
@@ -33,6 +34,7 @@ setUpLocators() {
   GetIt.I.registerSingleton(HomeStore());
   GetIt.I.registerSingleton(CategoriesStore());
   GetIt.I.registerSingleton(FavoriteStore());
+  GetIt.I.registerSingleton(ConnectivityStore());
 }
 
 class MyApp extends StatelessWidget {
@@ -73,7 +75,7 @@ class MyApp extends StatelessWidget {
               ?.copyWith(color: Colors.white),
         ),
       ),
-      home: BaseScreen(),
+      home: const BaseScreen(),
     );
   }
 }

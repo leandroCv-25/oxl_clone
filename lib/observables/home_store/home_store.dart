@@ -1,16 +1,21 @@
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:olx_clone/models/category.dart';
 
 import '../../models/ad.dart';
 import '../../repositories/ad_repository.dart';
+import '../connectivity/connectivity_store.dart';
 import '../filter_store/filter_store.dart';
 part 'home_store.g.dart';
 
 class HomeStore = _HomeStoreBase with _$HomeStore;
 
 abstract class _HomeStoreBase with Store {
+  final ConnectivityStore connectivityStore = GetIt.I<ConnectivityStore>();
+  
   _HomeStoreBase() {
     autorun((_) async {
+      connectivityStore.connected;
       try {
         setLoading(true);
         final newAds = await AdRepository().getHomeAdList(

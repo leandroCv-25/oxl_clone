@@ -1,13 +1,23 @@
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:olx_clone/models/category.dart';
 import 'package:olx_clone/repositories/category_repository.dart';
+
+import '../connectivity/connectivity_store.dart';
 part 'categories_store.g.dart';
 
 class CategoriesStore = _CategoriesStoreBase with _$CategoriesStore;
 
 abstract class _CategoriesStoreBase with Store {
+  
+
+  final ConnectivityStore connectivityStore = GetIt.I<ConnectivityStore>();
+
   _CategoriesStoreBase() {
-    _loadCategories();
+    autorun((_) {
+      if (connectivityStore.connected && categoryList.isEmpty)
+        _loadCategories();
+    });
   }
 
   ObservableList<Category> categoryList = ObservableList<Category>();
